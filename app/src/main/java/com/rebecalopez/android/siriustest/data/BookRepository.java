@@ -4,18 +4,17 @@ import com.rebecalopez.android.siriustest.data.entities.BookInfo;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Single;
 
 public class BookRepository {
 
     private BookService bookService;
 
-    public BookRepository() {
-    }
+    @Inject
+    public BookRepository(BookService bookService){this.bookService = bookService;}
 
-    public Single<BookInfo> getBookInfo(String book){
-        bookService = new BookService.Factory().create();
-
-        return bookService.getForecast(book/*,"{YOUR_API_KEY}"*/);
+    public Single<BookInfo> getBookInfo(String book){return bookService.getForecast(book,40);
     }
 }

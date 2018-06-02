@@ -16,7 +16,7 @@ public interface BookService {
     String BASE_URL = "https://www.googleapis.com/";
 
     @GET("/books/v1/volumes")
-    Single<BookInfo> getForecast(@Query("q") String bookTitle/*, @Query("key") String api_key*/);
+    Single<BookInfo> getForecast(@Query("q") String bookTitle, @Query("maxResults") int i);
 
     class Factory{
         private Retrofit createRetrofit(){

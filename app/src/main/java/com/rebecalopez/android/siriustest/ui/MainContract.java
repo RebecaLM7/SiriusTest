@@ -4,7 +4,7 @@ import com.rebecalopez.android.siriustest.data.entities.Item;
 
 import java.util.List;
 
-public interface BookContract {
+public interface MainContract {
     interface View {
         void showResults(List<Item> bookItem);
 

@@ -55,9 +55,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
 
         void bind(Item item) {
             if(item.getVolumeInfo() != null) {
-                txtTitle.setText("Title: ");
                 if(item.getVolumeInfo().getTitle() != null)
-                    txtTitle.append(item.getVolumeInfo().getTitle());
+                    txtTitle.setText(item.getVolumeInfo().getTitle());
 
                 StringBuilder stringBuilder = new StringBuilder("Author: ");
                 if (item.getVolumeInfo().getAuthors() != null) {

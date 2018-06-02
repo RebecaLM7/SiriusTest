@@ -1,28 +1,30 @@
 package com.rebecalopez.android.siriustest.ui;
 
-import android.util.Log;
-
 import com.rebecalopez.android.siriustest.data.BookRepository;
 import com.rebecalopez.android.siriustest.data.entities.BookInfo;
+import com.rebecalopez.android.siriustest.di.scopes.PerView;
 
-import io.reactivex.Scheduler;
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class BookPresenter implements BookContract.Presenter {
+@PerView
+public class MainPresenter implements MainContract.Presenter {
 
     private BookRepository bookRepository;
-    private BookContract.View view;
+    private MainContract.View view;
 
 
-    public BookPresenter(BookRepository bookRepository){
+    @Inject
+    public MainPresenter(BookRepository bookRepository){
         this.bookRepository = bookRepository;
     }
 
     @Override
     public void loadData(String bookTitle) {
-        Log.d("BookPresenter","loadData");
+      //  Log.d("MainPresenter","loadData");
 
         final Disposable disposable = bookRepository.getBookInfo(bookTitle)
                 .subscribeOn(Schedulers.io())
@@ -39,7 +41,7 @@ public class BookPresenter implements BookContract.Presenter {
     }
 
     @Override
-    public void attachView(BookContract.View view) {
+    public void attachView(MainContract.View view) {
         this.view = view;
     }
 

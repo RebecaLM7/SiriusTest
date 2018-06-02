@@ -1,4 +1,4 @@
-package com.rebecalopez.android.siriustest;
+package com.rebecalopez.android.siriustest.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,26 +9,30 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.rebecalopez.android.siriustest.R;
+import com.rebecalopez.android.siriustest.SiriusApp;
 import com.rebecalopez.android.siriustest.data.BookAdapter;
-import com.rebecalopez.android.siriustest.data.BookRepository;
 import com.rebecalopez.android.siriustest.data.entities.Item;
-import com.rebecalopez.android.siriustest.ui.BookContract;
-import com.rebecalopez.android.siriustest.ui.BookPresenter;
+import com.rebecalopez.android.siriustest.di.BookComponent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements BookContract.View{
+import javax.inject.Inject;
+
+public class MainActivity extends AppCompatActivity implements MainContract.View{
+
     private static final String TAG = MainActivity.class.getName();
 
-    BookPresenter bookPresenter;
-    BookRepository bookRepository;
-    EditText edtSearch;
-    ImageButton btnSearch;
-    RecyclerView rvBooks;
+    @Inject
+     MainPresenter mainPresenter;
 
-    List<Item> booksList = new ArrayList<>();
-    BookAdapter bookAdapter = new BookAdapter(booksList);
+    private EditText edtSearch;
+    private ImageButton btnSearch;
+    private RecyclerView rvBooks;
+
+    private List<Item> booksList = new ArrayList<>();
+    private BookAdapter bookAdapter = new BookAdapter(booksList);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +47,28 @@ public class MainActivity extends AppCompatActivity implements BookContract.View
         rvBooks.setHasFixedSize(true);
         rvBooks.setAdapter(bookAdapter);
 
-        bookRepository = new BookRepository();
-        bookPresenter = new BookPresenter(bookRepository);
+        injectDependencies();
 
-        bookPresenter.attachView(this);
+        mainPresenter.attachView(this);
 
-        btnSearch.setOnClickListener(v -> bookPresenter.loadData(/*"Harry"*/edtSearch.getText().toString()));
+        btnSearch.setOnClickListener(v -> mainPresenter.loadData(edtSearch.getText().toString()));
 
+    }
+
+    private void injectDependencies() {
+
+        BookComponent bookComponent = ((SiriusApp) getApplication()).getBookComponent();
+
+        DaggerMainComponent.builder()
+                .bookComponent(bookComponent)
+                .build()
+                .inject(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mainPresenter.detachView();
     }
 
     @Override
