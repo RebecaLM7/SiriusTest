@@ -1,4 +1,4 @@
-package com.rebecalopez.android.siriustest.data;
+package com.rebecalopez.android.siriustest.ui.recycler;
 
 import android.support.annotation.NonNull;
 import android.support.v7.recyclerview.extensions.ListAdapter;
@@ -56,7 +56,7 @@ public class BookListAdapter extends ListAdapter<Item, BookListAdapter.ViewHolde
                 if(item.getVolumeInfo().getTitle() != null)
                     txtTitle.setText(item.getVolumeInfo().getTitle());
 
-                StringBuilder stringBuilder = new StringBuilder("Author: ");
+                StringBuilder stringBuilder = new StringBuilder(itemView.getContext().getString(R.string.lbl_author));
                 if (item.getVolumeInfo().getAuthors() != null) {
                     for (String author : item.getVolumeInfo().getAuthors()) {
                         stringBuilder.append(author + " ,");

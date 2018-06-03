@@ -1,4 +1,4 @@
-package com.rebecalopez.android.siriustest.data;
+package com.rebecalopez.android.siriustest.ui.recycler;
 
 import android.support.v7.util.DiffUtil;
 

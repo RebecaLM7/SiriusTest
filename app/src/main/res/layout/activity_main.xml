@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:padding="8dp"
+    android:padding="@dimen/general_padding"
     tools:context=".ui.MainActivity">
 
     <EditText
         android:id="@+id/edt_search"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero_value"
         android:layout_height="wrap_content"
         android:lines="2"
-        android:hint="Book name"
-        android:textSize="14sp"
+        android:hint="@string/lbl_book_name"
+        android:textSize="@dimen/txt_size_normal"
+        android:inputType="text"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btn_search"/>
@@ -25,6 +26,7 @@
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_menu_search"
         android:background="@android:color/transparent"
+        android:contentDescription="@string/string_search_button"
         app:layout_constraintStart_toEndOf="@id/edt_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +36,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_books"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero_value"
         app:layout_constraintTop_toBottomOf="@id/edt_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="txt_size_normal">14sp</dimen>
+    <dimen name="txt_size_title">18sp</dimen>
+
+    <dimen name="zero_value">0dp</dimen>
+    <dimen name="general_padding">8dp</dimen>
+    <dimen name="row_padding">16dp</dimen>
+    <dimen name="stretch_margin">3dp</dimen>
+</resources>

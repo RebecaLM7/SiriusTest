@@ -2,7 +2,7 @@ package com.rebecalopez.android.siriustest.ui;
 
 import com.rebecalopez.android.siriustest.data.BookRepository;
 import com.rebecalopez.android.siriustest.data.entities.BookInfo;
-import com.rebecalopez.android.siriustest.di.scopes.PerView;
+import com.rebecalopez.android.siriustest.di.scopes.ActivityScope;
 
 import javax.inject.Inject;
 
@@ -10,7 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-@PerView
+@ActivityScope
 public class MainPresenter implements MainContract.Presenter {
 
     private BookRepository bookRepository;

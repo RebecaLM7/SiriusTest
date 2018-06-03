@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 import com.rebecalopez.android.siriustest.R;
 import com.rebecalopez.android.siriustest.SiriusApp;
-import com.rebecalopez.android.siriustest.data.BookListAdapter;
-import com.rebecalopez.android.siriustest.data.TaskDiffCallback;
+import com.rebecalopez.android.siriustest.ui.recycler.BookListAdapter;
+import com.rebecalopez.android.siriustest.ui.recycler.TaskDiffCallback;
 import com.rebecalopez.android.siriustest.data.entities.Item;
 import com.rebecalopez.android.siriustest.di.BookComponent;
 
@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
      MainPresenter mainPresenter;
 
     private EditText edtSearch;
-    private ImageButton btnSearch;
-    private RecyclerView rvBooks;
 
     private List<Item> booksList = new ArrayList<>();
     private BookListAdapter bookAdapter = new BookListAdapter(new TaskDiffCallback());
@@ -41,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setContentView(R.layout.activity_main);
 
         edtSearch = findViewById(R.id.edt_search);
-        btnSearch = findViewById(R.id.btn_search);
-        rvBooks   = findViewById(R.id.rv_books);
+        ImageButton btnSearch = findViewById(R.id.btn_search);
+        RecyclerView rvBooks = findViewById(R.id.rv_books);
 
         rvBooks.setLayoutManager(new LinearLayoutManager(this));
         rvBooks.setHasFixedSize(true);
@@ -73,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void showResults(List<Item> bookItem) {
-        Log.d(TAG, "showResults;"+bookItem);
+       // Log.d(TAG, "showResults;"+bookItem);
 
         bookAdapter.submitList(bookItem);
     }
@@ -83,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         booksList.clear();
         bookAdapter.submitList(booksList);
 
-        Toast.makeText(this,"No information, try later or with a different search",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,this.getString(R.string.lbl_toast_error),Toast.LENGTH_SHORT).show();
         Log.d(TAG,"Error:"+error);
     }
 }
