@@ -1,5 +1,7 @@
 package com.rebecalopez.android.siriustest.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Inject
      MainPresenter mainPresenter;
 
+    private BooksViewModel booksViewModel;
+
     private EditText edtSearch;
 
     private List<Item> booksList = new ArrayList<>();
@@ -49,6 +53,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         injectDependencies();
 
         mainPresenter.attachView(this);
+
+
+        booksViewModel = ViewModelProviders.of(this).get(BooksViewModel.class);
+
+        if(booksViewModel.getItemsList().size()>0)
+            bookAdapter.submitList(booksViewModel.getItemsList());
+
         btnSearch.setOnClickListener(v -> mainPresenter.loadData(edtSearch.getText().toString()));
 
     }
@@ -73,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void showResults(List<Item> bookItem) {
        // Log.d(TAG, "showResults;"+bookItem);
 
+        booksViewModel.setItemsList(bookItem);
         bookAdapter.submitList(bookItem);
     }
 
