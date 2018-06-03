@@ -1,5 +1,8 @@
 package com.rebecalopez.android.siriustest.data;
 
+import android.support.annotation.NonNull;
+import android.support.v7.recyclerview.extensions.ListAdapter;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,18 +15,16 @@ import com.rebecalopez.android.siriustest.R;
 import com.rebecalopez.android.siriustest.data.entities.Item;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+public class BookListAdapter extends ListAdapter<Item, BookListAdapter.ViewHolder> {
 
-public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
 
-    private List<Item> booksList;
-
-    public BookAdapter(List<Item> booksList) {
-        this.booksList = booksList;
+    public BookListAdapter(@NonNull DiffUtil.ItemCallback<Item> diffCallback) {
+        super(diffCallback);
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.recycler_row, parent, false);
 
@@ -31,29 +32,26 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder( ViewHolder holder, int position) {
-        holder.bind(booksList.get(position));
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.bind(getItem(position));
     }
 
-    @Override
-    public int getItemCount() {
-        return booksList.size();
-    }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder{
         TextView txtTitle;
         TextView txtAuthor;
         ImageView imgvBook;
 
-        ViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
+
 
             txtTitle = itemView.findViewById(R.id.txt_title);
             txtAuthor = itemView.findViewById(R.id.txt_author);
             imgvBook = itemView.findViewById(R.id.imgv_book);
         }
 
-        void bind(Item item) {
+        public void bind(Item item) {
             if(item.getVolumeInfo() != null) {
                 if(item.getVolumeInfo().getTitle() != null)
                     txtTitle.setText(item.getVolumeInfo().getTitle());
@@ -70,7 +68,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
                 try {
                     Picasso.get().load(item.getVolumeInfo().getImageLinks().getSmallThumbnail()).into(imgvBook);
                 } catch (Exception e) {
-                    Log.d("BookAdapter", "No image for this item");
+                    Log.d("BookListAdapter", "No image for this item");
                 }
             }
         }

@@ -11,7 +11,8 @@ import android.widget.Toast;
 
 import com.rebecalopez.android.siriustest.R;
 import com.rebecalopez.android.siriustest.SiriusApp;
-import com.rebecalopez.android.siriustest.data.BookAdapter;
+import com.rebecalopez.android.siriustest.data.BookListAdapter;
+import com.rebecalopez.android.siriustest.data.TaskDiffCallback;
 import com.rebecalopez.android.siriustest.data.entities.Item;
 import com.rebecalopez.android.siriustest.di.BookComponent;
 
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private RecyclerView rvBooks;
 
     private List<Item> booksList = new ArrayList<>();
-    private BookAdapter bookAdapter = new BookAdapter(booksList);
+    private BookListAdapter bookAdapter = new BookListAdapter(new TaskDiffCallback());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         injectDependencies();
 
         mainPresenter.attachView(this);
-
         btnSearch.setOnClickListener(v -> mainPresenter.loadData(edtSearch.getText().toString()));
 
     }
@@ -74,20 +74,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void showResults(List<Item> bookItem) {
         Log.d(TAG, "showResults;"+bookItem);
-        booksList.clear();
 
-        if(bookItem != null && bookItem.size()>0)
-            booksList.addAll(bookItem);
-        else
-            booksList = new ArrayList<>();
-
-        bookAdapter.notifyDataSetChanged();
+        bookAdapter.submitList(bookItem);
     }
 
     @Override
     public void showError(String error) {
         booksList.clear();
-        bookAdapter.notifyDataSetChanged();
+        bookAdapter.submitList(booksList);
 
         Toast.makeText(this,"No information, try later or with a different search",Toast.LENGTH_SHORT).show();
         Log.d(TAG,"Error:"+error);
